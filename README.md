@@ -14,6 +14,6 @@
 # 构建
 
 ```
-git clone https://github.com/wangqn/luci-app-filebrowser package/luci-app-filebrowser
+git clone https://github.com/OldCoding/luci-app-filebrowser package/luci-app-filebrowser
 make package/luci-app-filebrowser/compile
 ```
