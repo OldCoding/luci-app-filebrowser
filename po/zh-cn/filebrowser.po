@@ -1,3 +1,6 @@
+msgid "NAS"
+msgstr "网络存储"
+
 msgid "File Browser"
 msgstr "文件浏览器"
 
