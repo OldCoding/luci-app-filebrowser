@@ -26,7 +26,6 @@ jobs:
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.sdk }}
           FEEDNAME: packages_ci
-          PACKAGES: luci-app-filebrowser
           NO_REFRESH_CHECK: true
 
       - name: Upload artifacts
