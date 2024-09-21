@@ -28,9 +28,9 @@ local dsp = require "luci.dispatcher"
 		if (url.indexOf(':')) {
 			url = url.split(':')[0];
 		}
-		ssl_cert = "<%=luci.sys.exec("uci get filebrowser.@global[0].ssl_cert"):gsub("^%s*(.-)%s*$", "%1")%>";
-		ssl_key = "<%=luci.sys.exec("uci get filebrowser.@global[0].ssl_key"):gsub("^%s*(.-)%s*$", "%1")%>";
-		port = "<%=luci.sys.exec("uci get filebrowser.@global[0].port"):gsub("^%s*(.-)%s*$", "%1")%>";
+		ssl_cert = "<%=luci.sys.exec("uci -q get filebrowser.@global[0].ssl_cert"):gsub("^%s*(.-)%s*$", "%1")%>";
+		ssl_key = "<%=luci.sys.exec("uci -q get filebrowser.@global[0].ssl_key"):gsub("^%s*(.-)%s*$", "%1")%>";
+		port = "<%=luci.sys.exec("uci -q get filebrowser.@global[0].port"):gsub("^%s*(.-)%s*$", "%1")%>";
 		protocol = 'http';
 		if (ssl_cert !== '' && ssl_key !== '') protocol = 'https';
 		window.open(protocol+'://'+url+':'+port,'target','');

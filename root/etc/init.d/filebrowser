@@ -13,7 +13,7 @@ echolog() {
 config_t_get() {
 	local index=0
 	[ -n "$4" ] && index=$4
-	local ret=$(uci get filebrowser.@$1[$index].$2 2>/dev/null)
+	local ret=$(uci -q get filebrowser.@$1[$index].$2 2>/dev/null)
 	echo ${ret:=$3}
 }
 start() {
