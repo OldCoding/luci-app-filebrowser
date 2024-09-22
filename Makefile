@@ -12,6 +12,10 @@ LUCI_PKGARCH:=all
 PKG_VERSION:=1.1
 PKG_RELEASE:=1
 
+define Package/$(PKG_NAME)/conffiles
+/etc/config/filebrowser
+endef
+
 include $(TOPDIR)/feeds/luci/luci.mk
 
 # call BuildPackage - OpenWrt buildroot signature
