@@ -8,5 +8,5 @@ uci -q batch <<-EOF >/dev/null
 EOF
 
 chmod +x /etc/init.d/filebrowser
-rm -f /tmp/luci-indexcache
+rm -rf /tmp/luci-*
 exit 0
