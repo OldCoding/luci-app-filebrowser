@@ -24,7 +24,7 @@ start() {
 	DATABASE=$(config_t_get global database /etc/filebrowser.db)
 	SSL_CERT=$(config_t_get global ssl_cert)
 	SSL_KEY=$(config_t_get global ssl_key)
-	[ "$(config_t_get global disable_exec 1)" = "1" ]  && echolog "Disable exec" && DISABLE_EXEC="--disable-exec"
+	[ "$(config_t_get global disable_exec 1)" = "1" ]  && DISABLE_EXEC="--disable-exec"
 	ROOT_PATH=$(config_t_get global root_path /root)
 	executable_directory=$(config_t_get global executable_directory /tmp)
 	[ ! -f "$executable_directory/filebrowser" ] && echolog "$executable_directory/filebrowser not exists, please download first" && exit
