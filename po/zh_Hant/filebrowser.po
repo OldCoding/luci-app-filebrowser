@@ -1,0 +1,131 @@
+msgid "NAS"
+msgstr "網路儲存"
+
+msgid "File Browser"
+msgstr "文件瀏覽器"
+
+msgid "File explorer is software that creates your own cloud that you can install on a server, point it to a path, and then access your files through a beautiful web interface. You have many features available!"
+msgstr "文件瀏覽器是一種創建你自己的雲端的軟體，你可以在伺服器上安裝它，將它指向一個路徑，然後透過一個漂亮的web介面存取你的檔案。您有許多可用的特性！"
+
+msgid "RUNNING"
+msgstr "運行中"
+
+msgid "NOT RUNNING"
+msgstr "未運行"
+
+msgid "Enter interface"
+msgstr "進入介面"
+
+msgid "Global Settings"
+msgstr "全域設定"
+
+msgid "Enable"
+msgstr "啟用"
+
+msgid "Listen address"
+msgstr "監聽地址"
+
+msgid "Listen port"
+msgstr "監聽埠"
+
+msgid "Initial username"
+msgstr "初始帳戶"
+
+msgid "Initial password"
+msgstr "初始密碼"
+
+msgid "SSL cert"
+msgstr "SSL 憑證"
+
+msgid "SSL key"
+msgstr "SSL 私鑰"
+
+msgid "Database path"
+msgstr "資料庫路徑"
+
+msgid "Root path"
+msgstr "指向路徑"
+
+msgid "Point to a path to access your files in the web interface, default is /root"
+msgstr "指向一個路徑，可在web介面存取你的文件，預設為 /root"
+
+msgid "Executable directory"
+msgstr "可執行程式存放目錄"
+
+msgid "The file size is large, requiring at least 32M space. It is recommended to insert a usb flash drive or hard disk, or use it in the tmp directory<br />For example, /mnt/sda1<br />For example, /tmp"
+msgstr "文件較大，至少需要32M空間。建議插入U盤或硬碟，或放入tmp目錄使用<br />例如：/mnt/sda1<br />例如：/tmp"
+
+msgid "Disable Command Runner feature"
+msgstr "禁用命令執行功能"
+
+msgid "Manually download"
+msgstr "手動下載"
+
+msgid "Make sure you have enough space. <br /><font style='color:red'>Be sure to fill out the executable storage directory the first time you run it, and then save the application. Then manually download, otherwise can not use!</font>"
+msgstr "請確保具有足夠的空間。<br /><font style='color:red'>第一次執行務必填好專案存放目錄，然後儲存應用程式。再手動下載，否則無法使用！</font>"
+
+msgid "Logs"
+msgstr "日誌"
+
+msgid "Clear logs"
+msgstr "清空日誌"
+
+msgid "It is the latest version"
+msgstr "已是最新版本"
+
+msgid "Download successful"
+msgstr "下載成功"
+
+msgid "Click to download"
+msgstr "點擊下載"
+
+msgid "Updating..."
+msgstr "更新中"
+
+msgid "Unexpected error"
+msgstr "意外錯誤"
+
+msgid "Download, are you sure to close?"
+msgstr "正在下載，你確認要關閉嗎？"
+
+msgid "Downloading..."
+msgstr "下載中"
+
+msgid "Unpacking..."
+msgstr "解壓縮中"
+
+msgid "Moving..."
+msgstr "移動中"
+
+msgid "The latest version:"
+msgstr "最新版本："
+
+msgid "Can't determine ARCH, or ARCH not supported."
+msgstr "無法確認ARCH架構，或是不支持。"
+
+msgid "Get remote version info failed."
+msgstr "取得遠端版本資訊失敗。"
+
+msgid "New version found, but failed to get new version download url."
+msgstr "發現新版本，但未能獲得新版本的下載地址。"
+
+msgid "Download url is required."
+msgstr "請指定下載地址。"
+
+msgid "File download failed or timed out: %s"
+msgstr "文件下載失敗或超時：%s"
+
+msgid "File path required."
+msgstr "請指定檔案路徑。"
+
+msgid "Can't find client in file: %s"
+msgstr "無法在檔案中找到用戶端：%s"
+
+msgid "Client file is required."
+msgstr "請指定用戶端檔案。"
+
+msgid "The client file is not suitable for current device."
+msgstr "用戶端檔案不適合當前設備。"
+
+msgid "Can't move new file to path: %s"
+msgstr "無法移動新檔案到：%s"

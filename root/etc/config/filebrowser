@@ -1,0 +1,12 @@
+
+config global
+	option address '0.0.0.0'
+	option port '8088'
+	option database '/etc/filebrowser.db'
+	option ssl_cert ''
+	option ssl_key ''
+	option root_path '/root'
+	option executable_directory '/tmp'
+	option enable '0'
+	option disable_exec '1'
+
