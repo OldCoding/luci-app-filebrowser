@@ -1,46 +1,73 @@
 #!/bin/sh /etc/rc.common
 # Copyright (C) 2018-2020 Lienol <lawlienol@gmail.com>
 # Improve by xiaozhuai <xiaozhuai7@gmail.com>
+# Modified to support OpenWrt Procd by [Your Name]
 
+USE_PROCD=1
 START=99
 
+CONF="filebrowser"
 LOG_PATH="/var/log/filebrowser.log"
 
-echolog() {
-	echo -e "$(date "+%Y-%m-%d %H:%M:%S"): $1" >> $LOG_PATH
-}
-
-config_t_get() {
-	local index=0
+config_get() {
+    local index=0
 	[ -n "$4" ] && index=$4
 	local ret=$(uci -q get filebrowser.@$1[$index].$2 2>/dev/null)
 	echo ${ret:=$3}
 }
-start() {
-	ENABLED=$(config_t_get global enable 0)
-	[ "$ENABLED" = "0" ] && return
-	ADDRESS=$(config_t_get global address 0.0.0.0)
-	PORT=$(config_t_get global port 8088)
-	DATABASE=$(config_t_get global database /etc/filebrowser.db)
-	SSL_CERT=$(config_t_get global ssl_cert)
-	SSL_KEY=$(config_t_get global ssl_key)
-	[ "$(config_t_get global disable_exec 1)" = "1" ]  && DISABLE_EXEC="--disable-exec"
-	ROOT_PATH=$(config_t_get global root_path /root)
-	executable_directory=$(config_t_get global executable_directory /tmp)
-	[ ! -f "$executable_directory/filebrowser" ] && echolog "$executable_directory/filebrowser not exists, please download first" && exit
-	export HOME="/root"
-	SSL_PARAMS=""
-	[ -n "$SSL_CERT" ] && [ -n "$SSL_KEY" ] && SSL_PARAMS="-t $SSL_CERT -k $SSL_KEY"
-	$executable_directory/filebrowser -a $ADDRESS -p $PORT -r $ROOT_PATH -d "$DATABASE" $SSL_PARAMS -l $LOG_PATH $DISABLE_EXEC >/dev/null 2>&1 &
+
+start_service() {
+	config_load "$CONF"
+
+	local enabled=$(config_get global enable 0)
+
+	[ "$enabled" -eq "1" ] ||  {
+		echo "FileBrowser service is disabled"  >> $LOG_PATH
+		return 1
+	}
+
+	local DB_PATH=$(config_get global database /etc/filebrowser.db)
+	mkdir -p "${DB_PATH%/*}"
+
+	local address=$(config_get global address 0.0.0.0)
+	local listen_port=$(config_get global port 8088)
+	local root_path=$(config_get global root_path /root)
+	local cret=$(config_get global ssl_cert)
+	local key==$(config_get global ssl_key)
+	local disable_exec=$(config_get global disable_exec 1)
+	local exe_dir=$(config_get global executable_directory /tmp)
+	[ ! -f "$exe_dir/filebrowser" ] && {
+		echo "$exe_dir/filebrowser not exists, please download first"  >> $LOG_PATH
+		return 1
+	}
+	
+	procd_open_instance
+	procd_set_param command "$exe_dir/filebrowser"
+	procd_append_param command --database "$DB_PATH"
+	procd_append_param command --address "$address"
+	procd_append_param command --port "$listen_port"
+	procd_append_param command --root "$root_path"
+	#[ -n "$cret" ] && [ -n "$key" ] && procd_append_param command --cert "$cret" --key "$key"
+	
+	[ "$disable_exec" = "0" ] || procd_append_param command --disable-exec
+
+	procd_set_param limits core="unlimited"
+	procd_set_param limits nofile="1000000 1000000"
+	procd_set_param stdout 1
+	procd_set_param stderr 1
+	procd_set_param respawn
+
+	procd_close_instance
+
 }
 
-stop() {
-	ps -w | grep -v "grep" | grep "$executable_directory/filebrowser -a" | awk '{print $1}' | xargs kill -9 >/dev/null 2>&1 &
-	rm -rf $LOG_PATH
+service_triggers() {
+	procd_add_reload_trigger "$CONF"
 }
 
-restart() {
-	stop
-	sleep 1
-	start
+reload_service() {
+    stop
+    local enabled=$(config_get global enable 0)
+    [ "$enabled" -eq "1" ] && start
+
 }

@@ -8,10 +8,12 @@ local api = require "luci.model.cbi.filebrowser.api"
 function index()
     if not nixio.fs.access("/etc/config/filebrowser") then return end
 
-    entry({"admin", "nas"}, firstchild(), "NAS", 44).dependent = false
-    entry({"admin", "nas", "filebrowser"}, cbi("filebrowser/settings"),
-          _("File Browser"), 2).dependent = true
+    local e=entry({"admin", "nas", "filebrowser"}, cbi("filebrowser/settings"),
+          _("File Browser"), 2)
+    e.dependent = true
+    e.post = action_apply
 
+    entry({"admin", "nas"}, firstchild(), "NAS", 44).dependent = false
     entry({"admin", "nas", "filebrowser", "check"}, call("action_check")).leaf =
         true
     entry({"admin", "nas", "filebrowser", "download"}, call("action_download")).leaf =
@@ -29,9 +31,14 @@ local function http_write_json(content)
     http.write_json(content or {code = 1})
 end
 
+function action_apply()
+    luci.sys.call("/etc/init.d/filebrowser reload >/dev/null 2>&1")
+    luci.http.redirect(luci.dispatcher.build_url("admin/nas/filebrowser"))
+end
+
 function act_status()
     local e = {}
-    e.status = luci.sys.call("ps -w | grep -v grep | grep 'filebrowser -a' >/dev/null") == 0
+    e.status = luci.sys.call("pidof filebrowser >/dev/null") == 0
     http_write_json(e)
 end
 
