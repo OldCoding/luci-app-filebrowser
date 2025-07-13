@@ -4,6 +4,7 @@
 #
 # Improve by xiaozhuai <xiaozhuai7@gmail.com>
 #
+# Modified to support OpenWrt Procd by [OldCoding]
 
 include $(TOPDIR)/rules.mk
 

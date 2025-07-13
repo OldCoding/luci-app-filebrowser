@@ -1,7 +1,7 @@
 #!/bin/sh /etc/rc.common
 # Copyright (C) 2018-2020 Lienol <lawlienol@gmail.com>
 # Improve by xiaozhuai <xiaozhuai7@gmail.com>
-# Modified to support OpenWrt Procd by [Your Name]
+# Modified to support OpenWrt Procd by [OldCoding]
 
 USE_PROCD=1
 START=99
