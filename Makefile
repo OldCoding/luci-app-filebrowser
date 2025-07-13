@@ -27,7 +27,8 @@ define Package/$(PKG_NAME)/conffiles
 endef
 
 define Package/$(PKG_NAME)/install
-    $(INSTALL_BIN) ./filebrowser.init $(1)/etc/init.d/filebrowser
+    $(INSTALL_CONF) ./root/etc/config/filebrowser.conf $(1)/etc/config/filebrowser
+    $(INSTALL_BIN) ./root/etc/init.d/filebrowser.init $(1)/etc/init.d/filebrowser
 endef
 
 include $(TOPDIR)/feeds/luci/luci.mk
