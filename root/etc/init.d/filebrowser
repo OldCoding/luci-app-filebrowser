@@ -47,7 +47,7 @@ start_service() {
 	procd_append_param command --address "$address"
 	procd_append_param command --port "$listen_port"
 	procd_append_param command --root "$root_path"
-	#[ -n "$cret" ] && [ -n "$key" ] && procd_append_param command --cert "$cret" --key "$key"
+	[ -n "$cret" ] && [ -n "$key" ] && procd_append_param command --cert "$cret" --key "$key"
 	
 	[ "$disable_exec" = "0" ] || procd_append_param command --disable-exec
 
