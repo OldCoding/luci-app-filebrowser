@@ -32,7 +32,7 @@ local function http_write_json(content)
 end
 
 function action_apply()
-    luci.sys.call("procd restart myservice >/dev/null")
+    luci.sys.call("procd restart filebrowser >/dev/null")
     luci.http.redirect(luci.dispatcher.build_url("admin/nas/filebrowser"))
 end
 
