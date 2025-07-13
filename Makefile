@@ -14,8 +14,16 @@ LUCI_PKGARCH:=all
 PKG_VERSION:=1.2
 PKG_RELEASE:=1
 
+define Package/$(PKG_NAME)
+    SECTION:=luci
+    CATEGORY:=LuCI
+    SUBMENU:=3. Applications
+    TITLE:=FileBrowser for LuCI
+    PKGARCH:=all
+endef
+
 define Package/$(PKG_NAME)/conffiles
-/etc/config/filebrowser
+    /etc/config/filebrowser
 endef
 
 define Package/$(PKG_NAME)/install
