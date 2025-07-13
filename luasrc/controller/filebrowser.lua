@@ -11,7 +11,6 @@ function index()
     local e=entry({"admin", "nas", "filebrowser"}, cbi("filebrowser/settings"),
           _("File Browser"), 2)
     e.dependent = true
-    e.post = action_apply
 
     entry({"admin", "nas"}, firstchild(), "NAS", 44).dependent = false
     entry({"admin", "nas", "filebrowser", "check"}, call("action_check")).leaf =
@@ -29,11 +28,6 @@ end
 local function http_write_json(content)
     http.prepare_content("application/json")
     http.write_json(content or {code = 1})
-end
-
-function action_apply()
-    luci.sys.call("procd restart filebrowser >/dev/null")
-    luci.http.redirect(luci.dispatcher.build_url("admin/nas/filebrowser"))
 end
 
 function act_status()

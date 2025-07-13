@@ -16,15 +16,21 @@ config_get() {
 	echo ${ret:=$3}
 }
 
+reload_service() {
+    stop
+    start
+}
+
+service_running() {
+    procd_running
+}
+
 start_service() {
 	config_load "$CONF"
 
 	local enabled=$(config_get global enable 0)
 
-	[ "$enabled" -eq "1" ] ||  {
-		echo "FileBrowser service is disabled"  >> $LOG_PATH
-		return 1
-	}
+	[ "$enabled" -eq "1" ] ||  return 1
 
 	local DB_PATH=$(config_get global database /etc/filebrowser.db)
 	mkdir -p "${DB_PATH%/*}"
@@ -33,7 +39,7 @@ start_service() {
 	local listen_port=$(config_get global port 8088)
 	local root_path=$(config_get global root_path /root)
 	local cret=$(config_get global ssl_cert)
-	local key==$(config_get global ssl_key)
+	local key=$(config_get global ssl_key)
 	local disable_exec=$(config_get global disable_exec 1)
 	local exe_dir=$(config_get global executable_directory /tmp)
 	[ ! -f "$exe_dir/filebrowser" ] && {
@@ -63,11 +69,4 @@ start_service() {
 
 service_triggers() {
 	procd_add_reload_trigger "$CONF"
-}
-
-reload_service() {
-    stop
-    local enabled=$(config_get global enable 0)
-    [ "$enabled" -eq "1" ] && start
-
 }

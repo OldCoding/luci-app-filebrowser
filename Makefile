@@ -17,6 +17,10 @@ define Package/$(PKG_NAME)/conffiles
 /etc/config/filebrowser
 endef
 
+define Package/$(PKG_NAME)/install
+    $(INSTALL_BIN) ./filebrowser.init $(1)/etc/init.d/filebrowser
+endef
+
 include $(TOPDIR)/feeds/luci/luci.mk
 
 # call BuildPackage - OpenWrt buildroot signature
