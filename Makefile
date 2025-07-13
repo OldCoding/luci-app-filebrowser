@@ -23,7 +23,7 @@ define Package/$(PKG_NAME)
 endef
 
 define Package/$(PKG_NAME)/conffiles
-    /etc/config/filebrowser
+/etc/config/filebrowser
 endef
 
 include $(TOPDIR)/feeds/luci/luci.mk
