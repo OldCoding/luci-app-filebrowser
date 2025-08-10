@@ -92,7 +92,7 @@ local dsp = require "luci.dispatcher"
       if (ckeckDetailElm) {
         var urlNode = '';
         if (json.version) {
-          urlNode = '<em style="color:red;"><%:The latest version:%>' + json.version + '</em>';
+          urlNode = '<em style="color:red;"><%:The latest version:%>' + json.version + '</em>&nbsp;<em style="color:green;"><%:The local version:%>' + json.localver + '</em>';
           if (json.url && json.url.html) {
             urlNode = '<a href="' + json.url.html + '" target="_blank">' + urlNode + '</a>';
           }

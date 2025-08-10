@@ -180,7 +180,43 @@ local function get_api_json(url)
     return jsonc.parse(json_content) or {}
 end
 
-function get_version() return uci_get_type("global", "version", "0") end
+function get_version()
+    local json = require "luci.jsonc"  -- OpenWrt 通常自带 luci.jsonc
+    local fs = require "nixio.fs"
+
+    -- 1. 定义临时配置文件内容
+    local config_content = {
+        port = 80,
+        baseURL = "",
+        address = "",
+        log = "stdout",
+        database = "/tmp/filebrowser.db",  -- 临时数据库路径
+        root = "/tmp"  -- 临时根目录（避免权限问题）
+    }
+
+    -- 2. 生成临时配置文件
+    local config_path = "/tmp/filebrowser_temp_config.json"
+    local config_file = io.open(config_path, "w")
+    if not config_file then
+        print("无法创建配置文件！")
+        return nil
+    end
+
+    config_file:write(json.stringify(config_content))
+    config_file:close()
+
+    local executable_directory =
+        uci_get_type("global", "executable_directory", "/tmp")
+    local client_path = executable_directory .. "/" .. appname
+
+    -- 3. 执行命令并获取版本
+    local result = luci.sys.exec(client_path.." -c "..config_path.." version")
+
+    -- 4. 删除临时配置文件（可选）
+    fs.unlink(config_path)
+
+    return result:match("v([^/]+)")
+end
 
 function to_check(arch)
     if not arch or arch == "" then arch = auto_get_arch() end
@@ -205,8 +241,8 @@ function to_check(arch)
     end
 
     local remote_version = json.tag_name:match("[^v]+")
-
-    local needs_update = compare_versions(get_version(), "<", remote_version)
+    local local_version = get_version()
+    local needs_update = compare_versions(local_version, "<", remote_version)
     local html_url, download_url
 
     if needs_update then
@@ -225,7 +261,9 @@ function to_check(arch)
             version = remote_version,
             html_url = html_url,
             error = i18n.translate(
-                "New version found, but failed to get new version download url.")
+                "New version found, but failed to get new version download url."),
+            localver = local_version
+
         }
     end
 
@@ -233,7 +271,8 @@ function to_check(arch)
         code = 0,
         update = needs_update,
         version = remote_version,
-        url = {html = html_url, download = download_url}
+        url = {html = html_url, download = download_url},
+        localver = local_version
     }
 end
 
@@ -313,7 +352,11 @@ function to_move(file)
         client_path_bak = "/tmp/" .. appname .. ".bak"
         exec("/bin/mv", {"-f", client_path, client_path_bak})
     end
-
+    local result
+    local running = (sys.call("pidof filebrowser >/dev/null") == 0)
+    if running then
+        sys.call("/etc/init.d/filebrowser stop >/dev/null")
+    end
     local result = exec("/bin/mv", {"-f", file, client_path}, nil,
                         command_timeout) == 0
 
@@ -329,6 +372,10 @@ function to_move(file)
     end
 
     exec("/bin/chmod", {"755", client_path})
+
+    if running then
+        sys.call("/etc/init.d/filebrowser start >/dev/null")
+    end
 
     if client_path_bak then exec("/bin/rm", {"-f", client_path_bak}) end
 

@@ -100,6 +100,9 @@ msgstr "移动中"
 msgid "The latest version:"
 msgstr "最新版本："
 
+msgid "The local version:"
+msgstr "本地版本"
+
 msgid "Can't determine ARCH, or ARCH not supported."
 msgstr "无法确认ARCH架构，或是不支持。"
 
