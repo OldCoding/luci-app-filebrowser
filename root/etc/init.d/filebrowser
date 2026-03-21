@@ -58,7 +58,7 @@ start_service() {
 	procd_append_param command --root "$root_path"
 	[ -n "$cret" ] && [ -n "$key" ] && procd_append_param command --cert "$cret" --key "$key"
 	
-	procd_append_param command --disable-exec="$disable_exec_flag"
+	procd_append_param command --disableExec="$disable_exec_flag"
 
 
 	procd_set_param limits core="unlimited"

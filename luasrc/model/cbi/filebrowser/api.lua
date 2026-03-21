@@ -12,7 +12,7 @@ local api_url =
 
 local wget = "/usr/bin/wget"
 local wget_args = {
-    "--no-check-certificate", "--quiet", "--timeout=10", "--tries=2"
+    "--no-check-certificate", "--quiet", "--timeout=10"
 }
 local command_timeout = 300
 
@@ -172,7 +172,7 @@ local function get_api_json(url)
     -- local json_content = util.trim(table.concat(output))
 
     local json_content = luci.sys.exec(wget ..
-                                           " --no-check-certificate --timeout=10 -t 1 -O- " ..
+                                           " --no-check-certificate --timeout=10 -O- " ..
                                            url)
 
     if json_content == "" then return {} end
