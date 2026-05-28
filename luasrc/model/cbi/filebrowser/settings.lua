@@ -43,6 +43,9 @@ o = s:option(Flag, "disable_exec", translate("Disable Command Runner feature"))
 o.default = o.enabled;
 o.rmempty = false
 
+v = s:option(DummyValue, "_version", translate("Local Version"))
+v.template = "filebrowser/version"
+
 o = s:option(Button, "_download", translate("Manually download"), translate(
                  "Make sure you have enough space. <br /><font style='color:red'>Be sure to fill out the executable storage directory the first time you run it, and then save the application. Then manually download, otherwise can not use!</font>"))
 o.template = "filebrowser/download"

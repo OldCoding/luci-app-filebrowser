@@ -181,20 +181,18 @@ local function get_api_json(url)
 end
 
 function get_version()
-    local json = require "luci.jsonc"  -- OpenWrt 通常自带 luci.jsonc
+    local json = require "luci.jsonc"
     local fs = require "nixio.fs"
 
-    -- 1. 定义临时配置文件内容
     local config_content = {
         port = 80,
         baseURL = "",
         address = "",
         log = "stdout",
-        database = "/tmp/filebrowser.db",  -- 临时数据库路径
-        root = "/tmp"  -- 临时根目录（避免权限问题）
+        database = "/tmp/filebrowser.db",
+        root = "/tmp"
     }
 
-    -- 2. 生成临时配置文件
     local config_path = "/tmp/filebrowser_temp_config.json"
     local config_file = io.open(config_path, "w")
     if not config_file then
@@ -209,10 +207,8 @@ function get_version()
         uci_get_type("global", "executable_directory", "/tmp")
     local client_path = executable_directory .. "/" .. appname
 
-    -- 3. 执行命令并获取版本
     local result = luci.sys.exec(client_path.." -c "..config_path.." version")
 
-    -- 4. 删除临时配置文件（可选）
     fs.unlink(config_path)
 
     return result:match("v([^/]+)")
