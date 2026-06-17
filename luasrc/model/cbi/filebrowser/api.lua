@@ -204,10 +204,6 @@ function get_version()
 
     local config_path = "/tmp/filebrowser_temp_config.json"
     local config_file = io.open(config_path, "w")
-    if not config_file then
-        print("无法创建配置文件！")
-        return nil
-    end
 
     config_file:write(json.stringify(config_content))
     config_file:close()
