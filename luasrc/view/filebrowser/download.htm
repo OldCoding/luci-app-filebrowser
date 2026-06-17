@@ -80,13 +80,19 @@ local dsp = require "luci.dispatcher"
     }, function (json) {
       removePageNotice();
       if (json.code) {
-        eval('Info = undefined');
-        onRequestError(btn, json.error);
+          eval('Info = undefined');
+          onRequestError(btn, json.error);
       } else {
           eval('Info = json');
-          btn.disabled = false;
-          btn.value = clickToDownloadText;
-          btn.placeholder = clickToDownloadText;
+          if (json.update) {
+              btn.disabled = false;
+              btn.value = clickToDownloadText;
+              btn.placeholder = clickToDownloadText;
+          } else {
+              btn.disabled = true;
+              btn.value = '已是最新版本';
+              btn.placeholder = '已是最新版本';
+          }
       }
 
       if (ckeckDetailElm) {
